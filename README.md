@@ -95,8 +95,8 @@ You need a free [OpenRouter](https://openrouter.ai/keys) API key.
 **Option 1: open the file**
 
 ```bash
-git clone https://github.com/<your-username>/test-to-prod.git
-cd test-to-prod
+git clone https://github.com/Really-Muhammad/Test-to-Prod.git
+cd Test-to-Prod
 open test-to-prod.html   # macOS. On Linux use xdg-open, on Windows just double-click.
 ```
 
