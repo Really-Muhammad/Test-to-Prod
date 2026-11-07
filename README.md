@@ -17,7 +17,7 @@ Upload your project. Realistic reviewers pick it apart, a board of founder-inves
 
 [Quick start](#quick-start) · [Features](#features) · [How it works](#how-it-works) · [Configuration](#configuration) · [FAQ](#faq) · [Contributing](#contributing)
 
-<img src="docs/screenshots/desktop-dashboard.png" alt="Test To Prod dashboard" width="900">
+<img src="docs/demo.gif" alt="Test To Prod demo" width="900">
 
 </div>
 
