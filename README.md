@@ -78,15 +78,15 @@ It is a thinking tool, not an oracle. Use it to find the questions you have not 
 
 | Audience | Founders Hub |
 |---|---|
-| <img src="docs/screenshots/audience.png" alt="Audience tab" width="440"> | <img src="docs/screenshots/desktop-founders-hub.png" alt="Founders Hub" width="440"> |
+| <img src="docs/audience.png" alt="Audience tab" width="440"> | <img src="docs/desktop-founders-hub.png" alt="Founders Hub" width="440"> |
 
 | Community | Summary |
 |---|---|
-| <img src="docs/screenshots/desktop-community.png" alt="Community tab" width="440"> | <img src="docs/screenshots/desktop-summary.png" alt="Summary tab" width="440"> |
+| <img src="docs/desktop-community.png" alt="Community tab" width="440"> | <img src="docs/desktop-summary.png" alt="Summary tab" width="440"> |
 
 | Mobile dashboard | Mobile Founders Hub |
 |---|---|
-| <img src="docs/screenshots/mobile-dashboard.png" alt="Mobile dashboard" width="260"> | <img src="docs/screenshots/mobile-founders-hub.png" alt="Mobile Founders Hub" width="260"> |
+| <img src="docs/mobile-dashboard.png" alt="Mobile dashboard" width="260"> | <img src="docs/mobile-founders-hub.png" alt="Mobile Founders Hub" width="260"> |
 
 ## Quick start
 
