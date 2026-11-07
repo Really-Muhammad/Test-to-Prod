@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Test To Prod</title>
+<meta name="description" content="Validate your startup with a panel of AI personas and a billionaire board before you ship. Open source, runs in your browser.">
+<meta name="theme-color" content="#0f0f12"><meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f0f12'/%3E%3Cpath d='M10 11l5 5-5 5M17 22h6' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f6f6f8;--sf:#fff;--tx:#0f0f12;--mu:#6b6b78;--bd:#e6e6eb;--hv:#f1f1f5;--ac:#5b5bd6;--as:#ededfc;--ok:#15803d;--no:#b91c1c;--wa:#a16207;--pr:#0f0f12;--pt:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0a0c;--sf:#111114;--tx:#f3f3f6;--mu:#8d8d9a;--bd:#232328;--hv:#1a1a1f;--ac:#8b8bf0;--as:#1d1d33;--ok:#4ade80;--no:#f87171;--wa:#facc15;--pr:#f3f3f6;--pt:#0a0a0c}}
+:root[data-theme="dark"]{--bg:#0a0a0c;--sf:#111114;--tx:#f3f3f6;--mu:#8d8d9a;--bd:#232328;--hv:#1a1a1f;--ac:#8b8bf0;--as:#1d1d33;--ok:#4ade80;--no:#f87171;--wa:#facc15;--pr:#f3f3f6;--pt:#0a0a0c}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:60}
+svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+i.ic{display:inline-flex}
+.app{display:flex;min-height:100vh}
+.col{flex:1;min-width:0}
+.side{display:none}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;height:56px;padding:0 16px;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+.bar h2{margin:0;font-size:15px;font-weight:600;flex:1}
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;background:color-mix(in srgb,var(--sf) 92%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.nv{border:0;background:none;color:var(--mu);font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;border-radius:8px;transition:background .15s,color .15s}
+.tabs .nv{flex:1;flex-direction:column;gap:3px;font-size:10.5px;font-weight:500;padding:6px 2px}
+.nv.on{color:var(--tx)}.tabs .nv.on{color:var(--ac)}
+main{padding:20px 16px 108px;max-width:1160px;margin:auto}
+.top{margin-bottom:22px}
+.eb{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+h1{font-size:26px;line-height:1.15;margin:0 0 6px;font-weight:650;letter-spacing:-.03em}
+.sub{color:var(--mu);margin:0;max-width:600px}
+h3{font-size:14px;margin:0;font-weight:600}
+.g{display:grid;gap:16px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:18px;box-shadow:0 1px 2px rgba(15,15,30,.04)}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ch .d{color:var(--mu);font-size:12.5px;margin-left:auto}
+.view{display:none}.view.on{display:block;animation:fi .25s}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}}
+input,textarea,select{width:100%;background:var(--sf);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:9px 11px;font:inherit;font-size:14px;margin:0 0 14px;outline:0;transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 20%,transparent)}
+textarea{resize:vertical;min-height:84px}
+label{font-size:12.5px;font-weight:500;display:block;margin:0 0 6px}
+.hint{color:var(--mu);font-size:12px;margin:-8px 0 14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--pr);border-radius:8px;padding:8px 14px;font:inherit;font-weight:500;cursor:pointer;color:var(--pt);background:var(--pr);transition:opacity .15s,transform .1s,background .15s;white-space:nowrap}
+.btn:hover{opacity:.88}.btn:active{transform:scale(.98)}
+.btn.o{background:var(--sf);color:var(--tx);border-color:var(--bd)}.btn.o:hover{background:var(--hv);opacity:1}
+.btn.ac{background:var(--ac);border-color:var(--ac);color:#fff}
+.btn.sm{padding:6px 10px;font-size:13px}.btn.ib{padding:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.full{width:100%}
+.drop{border:1.5px dashed var(--bd);border-radius:10px;padding:22px 16px;text-align:center;color:var(--mu);cursor:pointer;margin-bottom:12px;transition:.15s}
+.drop:hover,.drop.dg{background:var(--as);border-color:var(--ac);color:var(--ac)}
+.drop b{display:block;color:var(--tx);font-weight:500;margin:6px 0 2px}.drop small{font-size:12px}
+.fl{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--bd);border-radius:6px;padding:3px 6px 3px 8px;font-size:12px;margin:0 6px 8px 0;background:var(--hv)}
+.fl button{border:0;background:none;color:var(--mu);cursor:pointer;padding:0;display:flex}
+.pg{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
+.pc{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--sf);color:var(--tx);text-align:left;font:inherit;cursor:pointer;transition:.15s;min-width:0}
+.pc:hover{background:var(--hv)}
+.pc.on{border-color:var(--ac);background:var(--as)}
+.pc div{flex:1;min-width:0}.pc b{display:block;font-weight:550;font-size:13.5px}.pc small{display:block;color:var(--mu);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc .ck{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--bd);display:grid;place-items:center;color:#fff}
+.pc.on .ck{background:var(--ac);border-color:var(--ac)}.pc .ck svg{width:12px;height:12px;stroke-width:3;opacity:0}.pc.on .ck svg{opacity:1}
+.av{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:650;font-size:13px}
+.chk{display:flex;gap:12px;align-items:center;padding:8px 0;color:var(--mu)}
+.chk.d{color:var(--tx)}.chk.d svg{color:var(--ok)}
+.prog{height:4px;background:var(--hv);border-radius:4px;overflow:hidden;margin:10px 0}.prog i{display:block;height:100%;background:var(--ac);width:0;transition:width .3s}
+.kp{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.kp div{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px 16px}
+.kp small{color:var(--mu);font-size:12px;display:block}.kp b{font-size:28px;font-weight:650;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rw{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--bd)}.rw:first-child{border:0}
+.rw .n{width:130px;flex:none;min-width:0}.rw .n b{display:block;font-weight:550;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rw .n small{color:var(--mu);font-size:12px;display:none}
+.bar2{flex:1;height:6px;border-radius:6px;background:var(--hv);overflow:hidden}.bar2 i{display:block;height:100%;background:var(--ac);border-radius:6px}
+.sc{width:30px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.bd{font-size:11.5px;font-weight:600;border-radius:999px;padding:2px 9px;border:1px solid currentColor;white-space:nowrap}
+.Invest{color:var(--ok)}.Maybe{color:var(--wa)}.Pass{color:var(--no)}
+.seg{display:inline-flex;background:var(--hv);border-radius:9px;padding:3px;gap:2px;margin-bottom:16px}
+.seg button{border:0;background:none;color:var(--mu);font:inherit;font-size:13px;font-weight:500;padding:5px 12px;border-radius:7px;cursor:pointer}.seg button.on{background:var(--sf);color:var(--tx);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.post{display:flex;gap:12px}.pb{flex:1;min-width:0}
+.pb p{margin:6px 0 10px;white-space:pre-wrap;word-break:break-word}
+.hd{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.hd small{color:var(--mu);font-size:12.5px}.hd .bd{margin-left:auto}
+.pt{font-size:13px;color:var(--mu);margin:3px 0;display:flex;gap:7px;align-items:flex-start}.pt svg{width:14px;height:14px;margin-top:3px}.pt.p svg{color:var(--ok)}.pt.c svg{color:var(--no)}
+.rep{margin-top:10px;padding:10px 12px;background:var(--hv);border-radius:8px;white-space:pre-wrap;display:none}
+.rr{display:flex;gap:8px;margin-top:10px}.rr input{margin:0}
+.li{margin:0;padding:0;list-style:none}.li li{display:flex;gap:10px;margin:0;padding:9px 0;border-top:1px solid var(--bd)}.li li:first-child{border:0}.li svg{margin-top:2px;color:var(--ac)}
+.empty{border:1.5px dashed var(--bd);border-radius:12px;padding:44px 20px;text-align:center;color:var(--mu)}
+.empty svg{width:28px;height:28px;color:var(--ac);margin-bottom:10px}.empty b{display:block;color:var(--tx);font-size:15px;margin-bottom:4px}.empty .btn{margin-top:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.st{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--pr);color:var(--pt);padding:9px 14px;border-radius:9px;font-size:13px;z-index:90;display:none;max-width:90%}
+.pill{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mu);padding:9px 10px;border:1px solid var(--bd);border-radius:9px}.pill i{width:7px;height:7px;border-radius:50%;background:var(--no)}.pill.ok i{background:var(--ok)}
+.md{position:fixed;inset:0;z-index:80;background:rgba(8,8,14,.5);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center}
+.md.on{display:flex}
+.sh{background:var(--sf);width:100%;max-width:480px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px));animation:up .25s}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.dots{display:flex;gap:6px;margin-bottom:18px}.dots i{height:4px;flex:1;border-radius:4px;background:var(--hv)}.dots i.on{background:var(--ac)}
+.sh h1{font-size:21px}.ft{display:flex;gap:8px;margin-top:6px}.ft .sp{flex:1}
+.ft2{display:flex;gap:12px;align-items:flex-start;margin:0 0 16px}.ft2 .ib2{width:36px;height:36px;border-radius:9px;background:var(--as);color:var(--ac);display:grid;place-items:center;flex:none}.ft2 b{display:block;font-weight:600}.ft2 span{color:var(--mu);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}.chip{border:1px solid var(--bd);background:var(--sf);color:var(--mu);border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;cursor:pointer}.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.drop{position:relative}.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;border:0;cursor:pointer;font-size:0}
+.tabs .nv span{white-space:nowrap}
+.pg.aud{grid-template-columns:1fr}
+.sw{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-weight:500;cursor:pointer}.sw input{width:18px;height:18px;margin:0;accent-color:var(--ac)}
+#sg{display:inline-flex}
+.rm{display:grid;place-items:center;width:22px;height:22px;border-radius:6px;color:var(--mu)}.rm:hover{background:var(--hv);color:var(--no)}.rm svg{width:14px;height:14px}
+.cb{position:relative;margin-bottom:14px}.cb input{margin:0;padding-right:40px}
+.cbb{position:absolute;right:4px;top:4px;bottom:4px;width:32px;border:0;background:none;color:var(--mu);border-radius:6px;cursor:pointer;display:grid;place-items:center}.cbb:hover{background:var(--hv)}
+.dd{display:none;position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:40;max-height:240px;overflow:auto;background:var(--sf);border:1px solid var(--bd);border-radius:10px;box-shadow:0 12px 32px -8px rgba(0,0,0,.25);padding:4px}.dd.on{display:block}
+.di{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:13px;word-break:break-all}.di:hover{background:var(--hv)}.di span{flex:1}.di em{font-style:normal;font-size:11px;font-weight:600;color:var(--ok);border:1px solid currentColor;border-radius:999px;padding:0 7px}
+@media(min-width:900px){
+#sg{display:none}
+.side{display:flex;flex-direction:column;gap:2px;width:248px;flex:none;position:sticky;top:0;height:100vh;padding:16px 12px;border-right:1px solid var(--bd);background:var(--sf)}
+.side .br{display:flex;align-items:center;gap:10px;font-weight:650;font-size:15px;padding:4px 10px 18px;letter-spacing:-.01em}
+.lg{width:28px;height:28px;border-radius:8px;background:var(--pr);color:var(--pt);display:grid;place-items:center}.lg svg{width:16px;height:16px;stroke-width:2.2}
+.side .nv{padding:8px 10px;font-size:13.5px;font-weight:500}.side .nv:hover{background:var(--hv)}.side .nv.on{background:var(--hv)}.side .nv.on svg{color:var(--ac)}
+.side .sp{flex:1}
+.tabs{display:none}
+.bar{padding:0 40px;height:60px}.bar h2{font-size:14px;color:var(--mu);font-weight:500}.bar h2 b{color:var(--tx);font-weight:600}
+main{padding:40px 40px 80px}
+h1{font-size:34px}.card{padding:22px}
+.g2{grid-template-columns:5fr 7fr;align-items:start}.g3{grid-template-columns:1fr 1fr}.pg{grid-template-columns:1fr 1fr}
+.kp{grid-template-columns:repeat(4,1fr)}.pg.aud{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}.rw .n{width:200px}.rw .n small{display:block}
+.st{bottom:24px}
+.md{align-items:center}.sh{border-radius:18px;padding:26px}}
+</style></head><body>
+<noscript><p style="padding:24px">Test To Prod needs JavaScript to run.</p></noscript>
+<div class="app">
+<aside class="side" id="sd"><div class="br"><span class="lg" data-i="terminal"></span>Test To Prod</div><div id="sn" style="display:contents"></div><div class="sp"></div><div class="pill" id="ps"><i></i><span></span></div></aside>
+<div class="col">
+<header class="bar"><h2 id="pt"></h2>
+<button class="btn o ib" id="sg" title="Settings"><i class="ic" data-i="settings"></i></button><button class="btn o ib" id="th" title="Toggle theme"><i class="ic" data-i="moon"></i></button>
+<button class="btn sm" id="gb"><i class="ic" data-i="play"></i>Run review</button></header>
+<main>
+<section class="view on" id="v-dash">
+<div class="top"><div class="eb">Dashboard</div><h1>Test it before you ship it</h1><p class="sub">Upload your project. A panel of realistic personas reviews it, debates it, and reports back before it reaches production.</p></div>
+<div class="card" id="ck" style="margin-bottom:16px"><div class="ch"><h3>Getting started</h3><span class="d" id="ckn"></span></div><div class="prog"><i id="ckb"></i></div><div id="ckl"></div></div>
+<div class="g g2">
+<div class="card"><div class="ch"><i class="ic" data-i="file-text"></i><h3>Project</h3></div>
+<label for="nm">Startup name</label><input id="nm" placeholder="Acme">
+<label for="ds">Description</label><textarea id="ds" placeholder="Who is it for, what does it do, what does it cost?"></textarea>
+<label for="ur">Website</label><input id="ur" placeholder="https://">
+<label>Files</label>
+<div class="drop" id="dp"><input id="fi" type="file" multiple><i class="ic" data-i="upload"></i><b>Upload files</b><small>Code, ZIP, text, JSON, CSV or screenshots</small></div>
+<div id="fl"></div>
+<label for="nt">Research and notes</label><textarea id="nt" placeholder="Competitors, numbers, anything useful"></textarea></div>
+<div class="card"><div class="ch"><i class="ic" data-i="users"></i><h3>Audience</h3><span class="d" id="pn"></span></div>
+<p class="sub" id="pa" style="margin-bottom:14px"></p>
+<button class="btn o full" id="ga" style="margin-bottom:10px">Choose audience</button>
+<button class="btn full" id="go"><i class="ic" data-i="play"></i>Run review</button>
+<div class="prog" id="pw" style="display:none"><i id="pb"></i></div><div class="hint" id="pm" style="margin:8px 0 0"></div></div>
+</div>
+<div id="rs" style="margin-top:16px;display:none">
+<div class="kp"><div><small>Average score</small><b id="av">0</b></div><div><small>Invest</small><b id="c1">0</b></div><div><small>Maybe</small><b id="c2">0</b></div><div><small>Pass</small><b id="c3">0</b></div></div>
+<div class="card"><div class="ch"><i class="ic" data-i="trending-up"></i><h3>Score by reviewer</h3></div><div id="bs"></div></div></div>
+</section>
+<section class="view" id="v-aud">
+<div class="top"><div class="eb">Audience</div><h1>Choose your audience</h1><p class="sub">Pick who reviews your product, add your own personas, and set the response language.</p></div>
+<div class="card"><div class="ch"><i class="ic" data-i="users"></i><h3>Reviewers</h3><span class="d" id="pn2"></span></div>
+<div class="row"><button class="btn o sm" id="sa">Select all</button><button class="btn o sm" id="sc">Clear</button></div>
+<div class="pg aud" id="pgr"></div>
+<details style="margin-bottom:16px"><summary style="cursor:pointer;font-weight:500;margin-bottom:12px">Add a custom persona</summary>
+<input id="cn" placeholder="Name"><input id="cb" placeholder="Age, city, job, budget, habits"><button class="btn o sm" id="ca"><i class="ic" data-i="plus"></i>Add persona</button></details>
+<label for="lg">Response language</label><select id="lg" style="max-width:320px"><option>English</option><option>Roman Urdu</option><option>Urdu</option><option>Hindi</option><option>Hinglish</option></select>
+</div>
+<div class="card" style="margin-top:16px"><div class="ch"><i class="ic" data-i="rocket"></i><h3>Billionaire board</h3><span class="d" id="tn2"></span></div>
+<p class="sub" style="margin-bottom:14px">Founders Hub members. They review your startup after the audience, then debate it and vote.</p>
+<label class="sw"><input type="checkbox" id="tb2"><span>Include the board whenever I run a review</span></label>
+<div class="pg aud" id="tr"></div>
+<details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:500;margin-bottom:12px">Add a custom billionaire</summary>
+<input id="cbn" placeholder="Archetype name (e.g. The Retail Titan)"><input id="cbi" placeholder="Inspired by (optional, a public figure whose philosophy it follows)"><textarea id="cbs" placeholder="How do they think? What do they value, look for and hate? How do they invest?"></textarea><button class="btn o sm" id="cba"><i class="ic" data-i="plus"></i>Add to board</button></details>
+<div class="hint" style="margin:0">Board members are fictional AI archetypes based on publicly known philosophies. They are not the real people, and nothing they say is a real opinion.</div></div>
+<div style="margin-top:16px"><button class="btn" id="gc"><i class="ic" data-i="check"></i>Done</button></div>
+</section>
+<section class="view" id="v-comm">
+<div class="top"><div class="eb">Community</div><h1>Reviews and discussion</h1><p class="sub">Read each reviewer, reply directly, or let them argue it out.</p></div>
+<div id="cm"></div>
+</section>
+<section class="view" id="v-hub">
+<div class="top"><div class="eb">Summary</div><h1>Summary and next steps</h1><p class="sub">The combined view of everything the panel said.</p></div>
+<div id="hm"></div>
+</section>
+<section class="view" id="v-fnd">
+<div class="top"><div class="eb">Founders Hub</div><h1>The billionaire board</h1><p class="sub">Eight AI archetypes built from the public business philosophies of famous founders and investors. Each reviews your startup, then they debate it and vote.</p></div>
+<div class="row" style="margin-bottom:6px"><span class="mu" id="tn" style="flex:1;min-width:200px"></span><button class="btn o sm" id="eb"><i class="ic" data-i="users"></i>Edit board in Audience</button></div>
+<div id="fo"></div>
+</section>
+<section class="view" id="v-set">
+<div class="top"><div class="eb">Settings</div><h1>Settings</h1><p class="sub">Your data and keys stay in this browser.</p></div>
+<div class="g g3"><div class="card"><div class="ch"><i class="ic" data-i="key-round"></i><h3>AI provider</h3></div>
+<label for="ak">OpenRouter API key</label><input id="ak" type="password" placeholder="sk-or-..." autocomplete="off">
+<label for="md">Model</label><input id="md" placeholder="thinkingmachines/inkling:free"><div class="hint">Type any OpenRouter model ID or pick one from the list. Empty uses the default free model with automatic fallbacks.</div></div>
+<div class="card"><div class="ch"><i class="ic" data-i="settings"></i><h3>Preferences</h3></div>
+<label for="tm">Theme</label><select id="tm"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+<div class="row" style="margin:0"><button class="btn o sm" id="rp"><i class="ic" data-i="refresh"></i>Replay onboarding</button><button class="btn o sm" id="rx"><i class="ic" data-i="x"></i>Reset all data</button></div></div>
+<div class="card"><div class="ch"><i class="ic" data-i="terminal"></i><h3>About</h3></div><p class="sub">Test To Prod v1.0.0. Open source under the MIT License. Everything runs in your browser. Your key and data go nowhere except OpenRouter.</p></div></div>
+</section>
+</main></div></div>
+<nav class="tabs" id="tb"></nav>
+<div class="st" id="st"></div>
+<div class="md" id="ob"><div class="sh" id="obs"></div></div>
+<script>
+const I={"layout-dashboard":'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+"messages-square":'<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',
+"rocket":'<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+"settings":'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+"upload":'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>',
+"chevron-down":'<path d="m6 9 6 6 6-6"/>',"play":'<polygon points="6 3 20 12 6 21 6 3"/>',"check":'<path d="M20 6 9 17l-5-5"/>',
+"plus":'<path d="M5 12h14"/><path d="M12 5v14"/>',"x":'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+"file-text":'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+"users":'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+"key-round":'<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
+"sun":'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+"moon":'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+"download":'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
+"zap":'<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+"trending-up":'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+"shield-alert":'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+"list-checks":'<path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/>',
+"send":'<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
+"lightbulb":'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+"circle":'<circle cx="12" cy="12" r="10"/>',"circle-check":'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+"terminal":'<polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/>',
+"refresh":'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+"sparkles":'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>'};
+const ic=n=>'<svg viewBox="0 0 24 24">'+I[n]+'</svg>';
+const $=id=>document.getElementById(id);
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function icons(r){(r||document).querySelectorAll("[data-i]").forEach(e=>e.innerHTML=ic(e.dataset.i))}
+const R=[["Rose Miller","US grandmother, not tech-savvy","71, retired schoolteacher in Ohio. Tablet for email and Facebook only, scared of scams and subscriptions."],
+["Sunita Sharma","Household CFO, Delhi","52, homemaker in Delhi. Runs the household budget, uses WhatsApp and YouTube, asks is it worth the money."],
+["Jake Sullivan","Competitive gamer, Texas","22, competitive gamer in Texas. Tech-savvy, hates lag and fake free-to-play."],
+["Kwame Mensah","Developer, Accra","31, developer in Accra. Mobile money, expensive data, cares about local pricing and offline use."],
+["Chidi Okafor","Side-hustler, Lagos","27, runs three side businesses in Lagos. Pays only for things that make money fast, direct and funny."],
+["Mika Tanaka","Perfectionist, Tokyo","34, office worker in Tokyo. Polite but exacting, very sensitive to bugs and quality."],
+["Priya Raman","Product manager, New Jersey","33, product manager in New Jersey. Thinks in funnels, retention and positioning."],
+["Victoria Hale","Venture investor, London","44, venture capital partner. Market size, moat, monetization, brutal on weak models."],
+["Dmitri Volkov","Senior engineer, Warsaw","31, senior engineer in Warsaw. Obsessed with security, performance and edge cases."],
+["Maya Chen","Product designer, Toronto","27, product designer in Toronto. Judges UX, accessibility and copywriting harshly."],
+["Bilal Raza","University student, Lahore","20, student in Lahore. Phone only, hates paywalls, no international card."],
+["Omar Al-Farsi","Business owner, Dubai","42, owns two businesses. Time-poor, pays for convenience and premium support."],
+["Lena Fischer","Privacy lawyer, Berlin","36, lawyer in Berlin. Obsessed with privacy and data ownership, reads every policy."],
+["Frank Delaney","Serial skeptic, Dublin","45, has watched a hundred startups fail, hunts red flags and existing competitors."]];
+const T=[["The Oracle","Warren Buffett","Value, moats, margin of safety","Calm, plain-spoken, uses homespun analogies. Judges by circle of competence, durable moat, owner earnings, honest and capable management, margin of safety and decade-long holding. Distrusts hype, leverage, complexity and anything that cannot be explained simply."],
+["The Perfectionist","Steve Jobs","Focus, taste, product experience","Intense and blunt about quality. Judges by focus (saying no), end-to-end experience, simplicity, taste, the meeting of technology and the humanities, and small elite teams. Hates feature bloat and mediocre design; asks whether people would love it, not just use it."],
+["The Platform Architect","Bill Gates","Software leverage, platforms, data","Analytical and data-driven. Judges by software margins, platform and ecosystem leverage, distribution, measurable impact, rigorous numbers and long-term technology trends. Asks for the metrics and the model behind every claim."],
+["The First-Principles Engineer","Elon Musk","First principles, cost curves, ambition","Impatient and ambitious. Reasons from first principles and physics-limited cost, values manufacturing and vertical integration, urgency, and big risk for big upside. Dismisses incremental ideas and asks why it cannot be ten times cheaper or faster."],
+["The Network Builder","Mark Zuckerberg","Network effects, growth loops, speed","Judges by network effects, growth loops, retention and engagement, shipping speed, and willingness to make long-term bets and to buy or beat emerging threats. Asks how it spreads and what the loop is."],
+["The Scale Maker","Mukesh Ambani","Scale, distribution, affordability","Thinks in massive scale and affordability for a billion customers. Judges by distribution reach, infrastructure, vertical integration, ecosystem partnerships, patient capital and the ability to cut prices and win on volume, especially in India-scale markets."],
+["The Compute Visionary","Jensen Huang","Full-stack platforms, ecosystems, market creation","Technical and intense. Judges by full-stack platform thinking, developer ecosystems and software lock-in, creating markets before they exist, deep technical craft, resilience through hard times and compounding advantage."],
+["The Customer Obsessive","Jeff Bezos","Customer obsession, flywheels, long term","Judges by customer obsession, working backwards from the customer, flywheels, long-term thinking, high standards, frugality and focus on what will not change. Comfortable being misunderstood for long periods."]];
+const TA=()=>T.map(x=>({n:x[0],i:x[1],g:x[2],t:"Inspired by "+x[1],b:"a fictional AI archetype inspired by "+x[1]+"'s publicly known business philosophy (not the real person, never invents quotes or events). "+x[3]})).concat(S.cb);
+let S={cb:[],tb:true,tsel:T.map(t=>t[0]),nm:"",ds:"",ur:"",nt:"",ak:"",md:"",lg:"English",tm:"system",ob:0,cu:[],sel:[0,1,2,3,7,8].map(i=>R[i][0]),ran:0};
+try{Object.assign(S,JSON.parse(localStorage.getItem("ttp")||"{}"))}catch(e){}
+const sv=()=>{try{localStorage.setItem("ttp",JSON.stringify(S))}catch(e){}};
+const A=()=>R.map(r=>({n:r[0],t:r[1],b:r[2]})).concat(S.cu);
+let TP=[],TD=[],TV=null,F=[],LE="",MODELS=["thinkingmachines/inkling:free","google/gemma-4-31b-it:free","openrouter/free","google/gemma-3-27b-it:free","meta-llama/llama-3.3-70b-instruct:free","deepseek/deepseek-chat-v3-0324:free","mistralai/mistral-small-3.2-24b-instruct:free","qwen/qwen3-235b-a22b:free","openai/gpt-4o-mini","openai/gpt-4o","anthropic/claude-3.5-haiku","anthropic/claude-sonnet-4","google/gemini-2.0-flash-001","meta-llama/llama-3.3-70b-instruct"].map(id=>({id,free:/free/.test(id)})),POSTS=[],SYN=null,FLT="All",V="dash";
+function toast(m){const s=$("st");s.textContent=m;s.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>s.style.display="none",3500)}
+function avatar(){return document.createDocumentFragment()}
+const NAV=[["dash","Dashboard","layout-dashboard"],["aud","Audience","users"],["comm","Community","messages-square"],["hub","Summary","list-checks"],["fnd","Founders Hub","rocket"],["set","Settings","settings"]];
+function nav(){["sn","tb"].forEach(id=>{const c=$(id);c.textContent="";NAV.filter(n=>id=="sn"||n[0]!="set").forEach(n=>{const b=el("button","nv"+(V==n[0]?" on":""));b.innerHTML=ic(n[2])+"<span>"+n[1]+"</span>";b.onclick=()=>go(n[0]);c.appendChild(b)})})}
+function go(v){V=v;document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));$("v-"+v).classList.add("on");const n=NAV.find(x=>x[0]==v);$("pt").innerHTML="Test To Prod / <b>"+n[1]+"</b>";nav();scrollTo(0,0);$("gb").style.display=v=="dash"||v=="aud"?"":"none";if(v=="aud")panel();if(v=="comm")feed();if(v=="hub")hub();if(v=="fnd")fnd()}
+function theme(){const r=document.documentElement;if(S.tm=="system")r.removeAttribute("data-theme");else r.dataset.theme=S.tm;const d=S.tm=="dark"||(S.tm=="system"&&matchMedia("(prefers-color-scheme:dark)").matches);$("th").innerHTML=ic(d?"sun":"moon")}
+$("sg").onclick=()=>go("set");$("th").onclick=()=>{const d=document.documentElement.dataset.theme=="dark"||(!document.documentElement.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);S.tm=d?"light":"dark";$("tm").value=S.tm;sv();theme()};
+["nm","ds","ur","nt","ak","md","lg","tm"].forEach(k=>{$(k).value=S[k];$(k).oninput=$(k).onchange=()=>{S[k]=$(k).value;sv();if(k=="tm")theme();status()}});
+function status(){const ok=!!S.ak.trim();$("ps").className="pill"+(ok?" ok":"");$("ps").lastChild.textContent=ok?"AI provider connected":"No API key";check()}
+function check(){const it=[["Connect your API key",!!S.ak.trim(),"set"],["Describe your project",!!(S.ds.trim()||F.length),"dash"],["Run your first review",!!POSTS.some(p=>p.r)||!!S.ran,"dash"]];const n=it.filter(x=>x[1]).length;$("ck").style.display=n==3?"none":"block";$("ckn").textContent=n+" of 3";$("ckb").style.width=n/3*100+"%";const l=$("ckl");l.textContent="";it.forEach(x=>{const d=el("div","chk"+(x[1]?" d":""));d.innerHTML=ic(x[1]?"circle-check":"circle")+"<span>"+x[0]+"</span>";l.appendChild(d)})}
+function panel(){const g=$("pgr");g.textContent="";A().forEach(a=>{const on=S.sel.includes(a.n);const b=el("button","pc"+(on?" on":""));b.appendChild(avatar(a.n));const d=el("div");d.append(el("b","",a.n),el("small","",a.t));b.appendChild(d);const ck=el("span","ck");ck.innerHTML=ic("check");b.appendChild(ck);if(S.cu.some(x=>x.n==a.n)){const r=el("span","rm");r.innerHTML=ic("x");r.title="Remove";r.onclick=e=>{e.stopPropagation();S.cu=S.cu.filter(x=>x.n!=a.n);S.sel=S.sel.filter(x=>x!=a.n);sv();panel()};b.appendChild(r)}b.onclick=()=>{S.sel=on?S.sel.filter(x=>x!=a.n):S.sel.concat(a.n);sv();panel()};g.appendChild(b)});panelB();$("pn").textContent=$("pn2").textContent=S.sel.length+" selected";const nm=S.sel.slice(0,4).join(", ");$("pa").textContent=S.sel.length?S.sel.length+" reviewers: "+nm+(S.sel.length>4?" and "+(S.sel.length-4)+" more":""):"No reviewers selected yet. Choose who should review your project."}
+$("ga").onclick=$("gc").onclick=()=>go(V=="aud"?"dash":"aud");$("sa").onclick=()=>{S.sel=A().map(a=>a.n);sv();panel()};$("sc").onclick=()=>{S.sel=[];sv();panel()};
+$("ca").onclick=()=>{const n=$("cn").value.trim(),b=$("cb").value.trim();if(!n||!b)return toast("Enter a name and a short bio");S.cu.push({n,t:"Custom persona",b});S.sel.push(n);$("cn").value=$("cb").value="";sv();panel()};
+function fls(){const d=$("fl");d.textContent="";F.forEach((f,i)=>{const s=el("span","fl",f.name);const x=el("button");x.innerHTML=ic("x");x.onclick=()=>{F.splice(i,1);fls()};s.appendChild(x);d.appendChild(s)});check()}
+const TX=/\.(txt|md|html|css|js|jsx|ts|tsx|json|csv|py|php|java|xml|yml|yaml|sql|vue)$/i;
+async function zipList(f){const tail=new Uint8Array(await f.slice(Math.max(0,f.size-70000)).arrayBuffer());let e=-1;for(let i=tail.length-22;i>=0;i--){if(tail[i]==80&&tail[i+1]==75&&tail[i+2]==5&&tail[i+3]==6){e=i;break}}if(e<0)throw new Error("not a valid zip file");
+const dv=new DataView(tail.buffer),n=dv.getUint16(e+10,true),cs=dv.getUint32(e+12,true),co=dv.getUint32(e+16,true);if(cs==4294967295||co==4294967295)throw new Error("zip64 archives are not supported");
+const cd=new Uint8Array(await f.slice(co,co+cs).arrayBuffer()),cv=new DataView(cd.buffer),dec=new TextDecoder(),L=[];let p=0;
+for(let i=0;i<n&&p+46<=cd.length;i++){const nl=cv.getUint16(p+28,true),xl=cv.getUint16(p+30,true),cl=cv.getUint16(p+32,true);L.push({name:dec.decode(cd.subarray(p+46,p+46+nl)),m:cv.getUint16(p+10,true),csz:cv.getUint32(p+20,true),off:cv.getUint32(p+42,true)});p+=46+nl+xl+cl}return L}
+async function zipText(f,en){try{const h=new DataView(await f.slice(en.off,en.off+30).arrayBuffer()),st=en.off+30+h.getUint16(26,true)+h.getUint16(28,true);let b=new Uint8Array(await f.slice(st,st+en.csz).arrayBuffer());
+if(en.m==8){const ds=new DecompressionStream("deflate-raw"),w=ds.writable.getWriter();w.write(b).catch(()=>{});w.close().catch(()=>{});b=new Uint8Array(await new Response(ds.readable).arrayBuffer())}else if(en.m)return"";return new TextDecoder().decode(b.subarray(0,1500))}catch(e){return""}}
+async function addF(list){for(const f of list){try{if(/\.zip$/i.test(f.name)){const all=(await zipList(f)).filter(x=>!x.name.endsWith("/")),ns=all.filter(x=>!/(^|\/)(node_modules|vendor|\.git|dist|build)\//.test(x.name));
+const pick=ns.filter(x=>TX.test(x.name)&&x.csz>0&&x.csz<60000&&x.csz!=4294967295).sort((a,b)=>(/readme|package\.json|composer\.json|index\.|app\.|main\./i.test(b.name)-/readme|package\.json|composer\.json|index\.|app\.|main\./i.test(a.name))||a.name.split("/").length-b.name.split("/").length).slice(0,8);
+let t="Zip contents ("+all.length+" files, "+(all.length-ns.length)+" in vendor/node_modules skipped): "+ns.slice(0,60).map(x=>x.name).join(", ")+"\n";for(const x of pick)t+="\n--- "+x.name+"\n"+await zipText(f,x);F.push({name:f.name+" ("+all.length+" files)",text:t})}
+else if(TX.test(f.name)||f.type.startsWith("text/")){F.push({name:f.name,text:(await f.text()).slice(0,4000)})}else F.push({name:f.name,text:"(attached "+(f.type||"file")+": "+f.name+")"})}catch(e){F.push({name:f.name,text:"(could not read: "+e.message+")"});toast("Could not read "+f.name+": "+e.message)}}fls();if(list.length)toast("Added "+list.length+" file"+(list.length>1?"s":""))}
+$("fi").onchange=e=>{addF([...e.target.files]);e.target.value=""};
+$("dp").ondragover=e=>{e.preventDefault();$("dp").classList.add("dg")};$("dp").ondragleave=()=>$("dp").classList.remove("dg");$("dp").ondrop=e=>{e.preventDefault();$("dp").classList.remove("dg");addF([...e.dataTransfer.files])};
+function ctx(){let t="Startup: "+(S.nm||"Unnamed")+"\nWhat it is: "+S.ds+"\nLink: "+S.ur+"\nNotes: "+S.nt.slice(0,2500);F.forEach(f=>t+="\n\nFile "+f.name+":\n"+f.text);return t.slice(0,9000)}
+const DEF="thinkingmachines/inkling:free",FB=[DEF,"google/gemma-4-31b-it:free","openrouter/free"];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const busy=t=>{$("pm").textContent=t};
+const strip=t=>t.replace(/<think(ing)?>[\s\S]*?<\/think(ing)?>/gi,"").trim();
+const fnl=t=>{t=strip(t);const m=t.match(/<final>([\s\S]*?)(<\/final>|$)/i);return m?m[1].trim():t};
+const FIN="\n\nOutput only the final text inside <final></final> tags. Never describe the task, the instructions or your reasoning.";
+async function llm(p){const k=S.ak.trim();if(!k){go("set");throw new Error("Add your OpenRouter API key in Settings")}
+const m0=S.md.trim()||DEF,models=m0.endsWith(":free")?[m0].concat(FB.filter(x=>x!=m0)).slice(0,3):[m0];let r,j;
+for(let i=1;i<=3;i++){const ac=new AbortController(),to=setTimeout(()=>ac.abort(),75000);
+try{r=await fetch("https://openrouter.ai/api/v1/chat/completions",{method:"POST",signal:ac.signal,headers:{"Content-Type":"application/json",Authorization:"Bearer "+k,"X-Title":"Test To Prod"},body:JSON.stringify({models,reasoning:{exclude:true},messages:[{role:"user",content:p}],max_tokens:1200})})}catch(e){clearTimeout(to);throw new Error(e.name=="AbortError"?"Timed out. Try another model.":"Network error: "+e.message)}
+clearTimeout(to);j=await r.json().catch(()=>({}));
+if(r.status==401)throw Object.assign(new Error("Invalid API key (401). Check it in Settings."),{fatal:1});
+if(r.status==429&&i<3){busy("Rate limited, waiting a few seconds...");await sleep(8000*i);continue}break}
+if(!r.ok||!j.choices)throw new Error((j.error&&j.error.message)||"HTTP "+r.status);
+return strip(j.choices[0].message.content||"")}
+const askT=p=>llm(p+FIN).then(fnl);
+async function askJ(p){for(let i=0;i<2;i++){const t=await llm(p);const m=t.replace(/```json|```/g,"").match(/[\[{][\s\S]*[\]}]/);if(m){try{return JSON.parse(m[0])}catch(e){}}}throw new Error("Unreadable AI response")}
+async function pool(items,fn,n){let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<items.length)await fn(items[i++])}))}
+async function run(){const ag=A().filter(a=>S.sel.includes(a.n));if(!S.ds.trim()&&!F.length){go("dash");return toast("Add a description or upload a file first")}if(!ag.length)return toast("Select at least one reviewer");
+POSTS=[];SYN=null;TP=[];TD=[];TV=null;$("go").disabled=$("gb").disabled=true;$("pw").style.display="block";let done=0;const c=ctx(),upd=()=>{$("pb").style.width=done/ag.length*100+"%";$("pm").textContent=done+" of "+ag.length+" reviews complete"};upd();
+try{await pool(ag,async a=>{try{const r=await askJ("You are "+a.n+", "+a.b+" Review this startup honestly, in character, from your own life situation. Write in "+S.lg+". Be specific, no flattery.\n\n"+c+"\n\nReply ONLY with JSON: {\"score\":integer 0-10,\"verdict\":\"Invest\" or \"Maybe\" or \"Pass\",\"review\":\"3-4 sentences\",\"pros\":[\"short\",\"short\"],\"cons\":[\"short\",\"short\"]}");POSTS.push({a,r})}catch(e){if(/API key/.test(e.message))throw e;LE=e.message;POSTS.push({a,r:null})}done++;upd()},3);
+const ok=POSTS.filter(p=>p.r);if(!ok.length)throw new Error("No reviews came back. "+(LE||"Check your key and model."));
+res();$("pm").textContent="Writing summary...";
+SYN=await askJ("Summary for the founders. Write in "+S.lg+". Startup:\n"+c+"\n\nPanel reviews:\n"+ok.map(p=>p.a.n+" ("+p.a.t+") score "+p.r.score+": "+p.r.review).join("\n")+"\n\nReply ONLY JSON: {\"summary\":\"3-4 sentences\",\"strengths\":[3 short],\"risks\":[3 short],\"steps\":[5 concrete next steps]}");
+S.ran=1;sv();savR();check();await board(c);savR();busy("Done. Open Community, Summary or Founders Hub.")}catch(e){$("pm").textContent="Error: "+(e&&e.message||e)}
+$("go").disabled=$("gb").disabled=false}
+$("go").onclick=run;$("gb").onclick=()=>{if(V!="dash")go("dash");run()};
+function res(){const ok=POSTS.filter(p=>p.r).sort((a,b)=>b.r.score-a.r.score);const avg=ok.reduce((s,p)=>s+(+p.r.score||0),0)/ok.length;$("rs").style.display="block";$("av").textContent=avg.toFixed(1);
+const c={Invest:0,Maybe:0,Pass:0};ok.forEach(p=>c[p.r.verdict]=(c[p.r.verdict]||0)+1);$("c1").textContent=c.Invest;$("c2").textContent=c.Maybe;$("c3").textContent=c.Pass;
+const b=$("bs");b.textContent="";ok.forEach(p=>{const r=el("div","rw");r.appendChild(avatar(p.a.n));const n=el("div","n");n.append(el("b","",p.a.n),el("small","",p.a.t));const u=el("div","bar2");const i=el("i");i.style.width=p.r.score*10+"%";u.appendChild(i);r.append(n,u,el("span","sc",p.r.score),el("span","bd "+p.r.verdict,p.r.verdict));b.appendChild(r)})}
+function emp(ic_,t,d){const e=el("div","empty");e.innerHTML=ic(ic_);e.append(el("b","",t),el("span","",d));return e}
+function post(a,body,r,dbt){const c=el("div","card post");c.appendChild(avatar(a.n));const pb=el("div","pb");const h=el("div","hd");h.append(el("b","",a.n),el("small","",a.t));if(r)h.appendChild(el("span","bd "+r.verdict,r.verdict+" · "+r.score+"/10"));pb.append(h,el("p","",body));
+if(r){[["pros","p","check"],["cons","c","x"]].forEach(k=>(r[k[0]]||[]).forEach(x=>{const d=el("div","pt "+k[1]);d.innerHTML=ic(k[2]);d.appendChild(el("span","",x));pb.appendChild(d)}))}
+if(!dbt){const rr=el("div","rr");const i=el("input");i.onkeydown=e=>{if(e.key=="Enter")b.click()};i.placeholder="Reply to "+a.n.split(" ")[0];const b=el("button","btn o ib");b.innerHTML=ic("send");rr.append(i,b);const out=el("div","rep");pb.append(rr,out);
+b.onclick=async()=>{const q=i.value.trim();if(!q)return;b.disabled=true;out.style.display="block";out.textContent="Thinking...";try{out.textContent=await askT("You are "+a.n+", "+a.b+" You reviewed this startup earlier:\n"+ctx().slice(0,3000)+"\nYour review: "+(r?r.review:"")+"\n\nThe founder now says: "+q+"\nReply in character, in "+S.lg+", max 4 sentences.");i.value=""}catch(e){out.textContent="Error: "+(e.message||e)}b.disabled=false}}
+c.appendChild(pb);return c}
+function feed(){const m=$("cm");m.textContent="";const ok=POSTS.filter(p=>p.r);if(!ok.length)return m.appendChild(emp("messages-square","No reviews yet","Run a review and the panel will post their reactions here."));
+const row=el("div","row");const sg=el("div","seg");["All","Invest","Maybe","Pass"].forEach(f=>{const b=el("button",FLT==f?"on":"",f);b.onclick=()=>{FLT=f;feed()};sg.appendChild(b)});const d=el("button","btn o sm");d.id="db";d.innerHTML=ic("zap")+"Start debate";d.onclick=debate;row.append(sg,d);row.style.justifyContent="space-between";m.appendChild(row);
+const g=el("div","g g3");ok.filter(p=>FLT=="All"||p.r.verdict==FLT).forEach(p=>g.appendChild(post(p.a,p.r.review,p.r)));if(FLT=="All")POSTS.filter(p=>p.dbt).forEach(p=>g.appendChild(post(p.a,p.dbt,null,1)));m.appendChild(g)}
+async function debate(){const ok=POSTS.filter(p=>p.r);if(ok.length<2)return;const b=$("db");b.disabled=true;
+try{const t=await askJ("These people reviewed a startup and now argue with each other in a community thread. Write in "+S.lg+". Each person writes ONE short reply (max 2 sentences) that disagrees with or builds on another by name.\nStartup:\n"+ctx().slice(0,2500)+"\nReviews:\n"+ok.map(p=>p.a.n+": "+p.r.review).join("\n")+"\n\nReply ONLY JSON array: [{\"name\":\"exact name\",\"text\":\"...\"}] for "+ok.slice(0,8).map(p=>p.a.n).join(", "));
+(Array.isArray(t)?t:[]).forEach(x=>{const a=A().find(a=>a.n==x.name);if(a)POSTS.push({a,dbt:x.text})});savR();feed()}catch(e){toast("Error: "+(e.message||e));b.disabled=false}}
+function hub(){const m=$("hm");m.textContent="";if(!SYN)return m.appendChild(emp("rocket","Nothing here yet","Your summary, risks and next steps appear after the first review."));const s=SYN;
+const card=(t,ico,a,txt)=>{const c=el("div","card");const h=el("div","ch");h.innerHTML=ic(ico);h.appendChild(el("h3","",t));c.appendChild(h);if(txt)c.appendChild(el("p","",txt)),c.lastChild.style.margin="0";else{const u=el("ul","li");(a||[]).forEach(x=>{const l=el("li");l.innerHTML=ic(ico);l.appendChild(el("span","",x));u.appendChild(l)});c.appendChild(u)}return c};
+const g=el("div","g g3");g.append(card("Summary","sparkles",0,s.summary),card("Strengths","trending-up",s.strengths),card("Risks","shield-alert",s.risks),card("Next steps","list-checks",s.steps));m.appendChild(g);
+const w=el("div","card");w.style.marginTop="16px";w.innerHTML='<div class="ch">'+ic("lightbulb")+'<h3>What if...</h3></div>';const i=el("input");i.placeholder="What if the price drops to $5 per month?";const b=el("button","btn");b.textContent="Ask the panel";const o=el("div","rep");w.append(i,b,o);
+b.onclick=async()=>{const q=i.value.trim();if(!q)return;b.disabled=true;o.style.display="block";o.textContent="Thinking...";try{o.textContent=await askT("Startup:\n"+ctx().slice(0,3000)+"\nPanel summary: "+SYN.summary+"\nScores: "+POSTS.filter(p=>p.r).map(p=>p.a.n+" "+p.r.score).join(", ")+"\n\nWhat if: "+q+"\nIn "+S.lg+", explain in 4-5 sentences how the panel's opinion would likely change and who would flip.")}catch(e){o.textContent="Error: "+(e.message||e)}b.disabled=false};m.appendChild(w);
+const d=el("button","btn o");d.style.marginTop="16px";d.innerHTML=ic("download")+"Download report";d.onclick=report;m.appendChild(d)}
+function report(){const ok=POSTS.filter(p=>p.r);const m="# "+(S.nm||"Startup")+" - Test To Prod report\n\n"+SYN.summary+"\n\n## Strengths\n"+SYN.strengths.map(x=>"- "+x).join("\n")+"\n\n## Risks\n"+SYN.risks.map(x=>"- "+x).join("\n")+"\n\n## Next steps\n"+SYN.steps.map(x=>"- "+x).join("\n")+(TV?"\n\n## Board verdict\n"+TV.headline+"\n"+TV.consensus:"")+"\n\n## Reviews\n"+ok.map(p=>"### "+p.a.n+" ("+p.r.verdict+" "+p.r.score+"/10)\n"+p.r.review).join("\n\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([m],{type:"text/markdown"}));a.download="test-to-prod-report.md";a.click()}
+function combo(inp){const w=el("div","cb");inp.parentNode.insertBefore(w,inp);w.appendChild(inp);const b=el("button","cbb");b.type="button";b.innerHTML=ic("chevron-down");const dd=el("div","dd");w.append(b,dd);
+const draw=q=>{dd.textContent="";const l=MODELS.filter(m=>!q||m.id.toLowerCase().includes(q.toLowerCase())).slice(0,80);if(!l.length)dd.appendChild(el("div","di","No match. Your typed model ID will be used."));l.forEach(m=>{const d=el("div","di");d.appendChild(el("span","",m.id));if(m.free)d.appendChild(el("em","","free"));d.onmousedown=e=>{e.preventDefault();inp.value=m.id;inp.dispatchEvent(new Event("input"));dd.classList.remove("on")};dd.appendChild(d)})};
+b.onclick=()=>{draw("");dd.classList.toggle("on")};inp.addEventListener("focus",()=>{draw(inp.value);dd.classList.add("on")});inp.addEventListener("input",()=>{draw(inp.value);dd.classList.add("on")});inp.addEventListener("blur",()=>setTimeout(()=>dd.classList.remove("on"),150))}
+fetch("https://openrouter.ai/api/v1/models").then(r=>r.json()).then(d=>{const l=(d.data||[]).map(m=>({id:m.id,free:/:free$/.test(m.id)||!!(m.pricing&&+m.pricing.prompt==0&&+m.pricing.completion==0)}));l.sort((a,b)=>b.free-a.free||a.id.localeCompare(b.id));if(l.length){const top=[DEF,"openrouter/free"];MODELS=top.map(id=>({id,free:true})).concat(l.filter(m=>!top.includes(m.id)))}}).catch(()=>{});
+function panelB(){const g=$("tr");g.textContent="";TA().forEach(a=>{const on=S.tsel.includes(a.n);const b=el("button","pc"+(on?" on":""));const d=el("div");d.append(el("b","",a.n),el("small","",a.t+(a.g&&a.g!="Custom"?" · "+a.g:"")));b.appendChild(d);const ck=el("span","ck");ck.innerHTML=ic("check");b.appendChild(ck);
+if(S.cb.some(x=>x.n==a.n)){const r=el("span","rm");r.innerHTML=ic("x");r.title="Remove";r.onclick=e=>{e.stopPropagation();S.cb=S.cb.filter(x=>x.n!=a.n);S.tsel=S.tsel.filter(x=>x!=a.n);sv();panelB()};b.appendChild(r)}
+b.onclick=()=>{S.tsel=on?S.tsel.filter(x=>x!=a.n):S.tsel.concat(a.n);sv();panelB()};g.appendChild(b)});$("tn2").textContent=TA().filter(a=>S.tsel.includes(a.n)).length+" of "+TA().length+" seated";$("tb2").checked=S.tb!==false}
+function fnd(){const n=TA().filter(a=>S.tsel.includes(a.n)).length;$("tn").textContent=(S.tb===false?"Board is off. ":"")+n+" board members seated. Fictional archetypes based on public philosophies, not the real people.";fo()}
+$("eb").onclick=()=>go("aud");$("tb2").onchange=()=>{S.tb=$("tb2").checked;sv()};
+$("cba").onclick=()=>{const n=$("cbn").value.trim(),st=$("cbs").value.trim();if(!n||!st)return toast("Enter a name and describe how they think");const i=$("cbi").value.trim();S.cb.push({n,i,g:"Custom",t:i?"Inspired by "+i:"Custom archetype",b:"a fictional AI archetype of a billionaire founder-investor"+(i?" inspired by the publicly known business philosophy of "+i:"")+" (not a real person, never invents quotes or events). "+st});S.tsel.push(n);["cbn","cbi","cbs"].forEach(k=>$(k).value="");sv();panelB()};
+function sec(t,i){const h=el("div","ch");h.style.marginTop="22px";h.innerHTML=ic(i);h.appendChild(el("h3","",t));return h}
+function fo(){const m=$("fo");m.textContent="";const ok=TP.filter(p=>p.r);if(!ok.length)return m.appendChild(emp("rocket","No board review yet","Run a review from the Dashboard. The board weighs in automatically."));
+const ord=n=>TA().findIndex(a=>a.n==n);ok.sort((a,b)=>ord(a.a.n)-ord(b.a.n));const avg=ok.reduce((s,p)=>s+(+p.r.score||0),0)/ok.length;const c={Invest:0,Maybe:0,Pass:0};ok.forEach(p=>c[p.r.verdict]=(c[p.r.verdict]||0)+1);
+const k=el("div","kp");k.innerHTML='<div><small>Board average</small><b>'+avg.toFixed(1)+'</b></div><div><small>Invest</small><b>'+c.Invest+'</b></div><div><small>Maybe</small><b>'+c.Maybe+'</b></div><div><small>Pass</small><b>'+c.Pass+'</b></div>';m.appendChild(k);
+if(TV){const v=el("div","card");const h=el("div","ch");h.innerHTML=ic("sparkles");h.appendChild(el("h3","","Board verdict"));v.appendChild(h);const hl=el("p","",TV.headline);hl.style.cssText="font-size:17px;font-weight:600;margin:0 0 10px;letter-spacing:-.01em";v.appendChild(hl);
+[["Consensus",TV.consensus],["Dissent",TV.dissent],["Next move",TV.nextMove]].forEach(x=>{if(x[1]){const p=el("p","");p.style.margin="0 0 8px";p.append(Object.assign(el("b","",x[0]+": "),{}),document.createTextNode(x[1]));v.appendChild(p)}});
+if(TV.conditions&&TV.conditions.length){const l=el("p","","To fund it, this must be true:");l.style.cssText="margin:12px 0 4px;font-weight:600";v.appendChild(l);const u=el("ul","li");TV.conditions.forEach(x=>{const li=el("li");li.innerHTML=ic("check");li.appendChild(el("span","",x));u.appendChild(li)});v.appendChild(u)}m.appendChild(v)}
+m.appendChild(sec("Opening takes","users"));const g=el("div","g g3");ok.forEach(p=>g.appendChild(post(p.a,p.r.review,p.r)));m.appendChild(g);
+if(TD.length){m.appendChild(sec("The debate","zap"));const d=el("div","g g3");TD.forEach(x=>d.appendChild(post(x.a,(x.to?"@"+x.to+" ":"")+x.text,null,1)));m.appendChild(d)}}
+async function board(c){const tg=TA().filter(a=>S.tsel.includes(a.n));TP=[];TD=[];TV=null;if(!tg.length||S.tb===false)return;let d=0;const up=()=>busy("Board: "+d+" of "+tg.length+" opening takes complete");up();
+await pool(tg,async a=>{try{const r=await askJ("You are "+a.n+", "+a.b+" Judge this startup from your own philosophy as a billionaire-level founder-investor: unit economics, moat, distribution, timing, capital efficiency, team, and whether it can become huge. Be blunt and specific, no flattery. Write in "+S.lg+".\n\n"+c+"\n\nReply ONLY with JSON: {\"score\":integer 0-10,\"verdict\":\"Invest\" or \"Maybe\" or \"Pass\",\"review\":\"3-4 sentences\",\"pros\":[\"short\",\"short\"],\"cons\":[\"short\",\"short\"]}");TP.push({a,r})}catch(e){if(/API key/.test(e.message))throw e;LE=e.message}d++;up()},3);
+const ok=TP.filter(p=>p.r);if(!ok.length)throw new Error("Board: "+(LE||"no takes came back"));fo();
+const tk=ok.map(p=>p.a.n+" ("+p.r.verdict+" "+p.r.score+"/10): "+p.r.review).join("\n");
+if(ok.length>1){busy("The board is debating...");try{const t=await askJ("These fictional archetypes just gave opening takes on a startup. Now they debate each other live. Write 10 short messages in order. Each is 1-2 sentences from one archetype (exact name), addressed to another by exact name, and must directly challenge or build on that archetype's view according to their different philosophies. Everyone speaks at least once. Write in "+S.lg+".\nStartup:\n"+c.slice(0,3000)+"\nOpening takes:\n"+tk+"\n\nReply ONLY with a JSON array: [{\"name\":\"exact name\",\"to\":\"exact name\",\"text\":\"...\"}]");(Array.isArray(t)?t:[]).forEach(x=>{const a=tg.find(a=>a.n==x.name);if(a&&x.text)TD.push({a,to:x.to,text:x.text})});fo()}catch(e){LE=e.message}}
+busy("The board is voting...");try{TV=await askJ("You moderate this board of fictional archetypes. Based on the takes and the debate, write the board verdict. Write in "+S.lg+".\nStartup:\n"+c.slice(0,2500)+"\nTakes:\n"+tk+"\nDebate:\n"+TD.map(x=>x.a.n+": "+x.text).join("\n")+"\n\nReply ONLY JSON: {\"headline\":\"one sentence\",\"consensus\":\"2-3 sentences\",\"dissent\":\"1-2 sentences\",\"conditions\":[\"3 short things that must be true to fund it\"],\"nextMove\":\"one concrete next move\"}")}catch(e){LE=e.message}fo()}
+function savR(){try{localStorage.setItem("ttpr",JSON.stringify({P:POSTS.map(p=>({n:p.a.n,r:p.r,d:p.dbt})),Y:SYN,TP:TP.map(p=>({n:p.a.n,r:p.r})),TD:TD.map(x=>({n:x.a.n,to:x.to,text:x.text})),TV}))}catch(e){}}
+function loadR(){try{const d=JSON.parse(localStorage.getItem("ttpr")||"null");if(!d)return;const al=A(),ta=TA();POSTS=(d.P||[]).map(p=>({a:al.find(a=>a.n==p.n),r:p.r,dbt:p.d})).filter(p=>p.a);SYN=d.Y;TP=(d.TP||[]).map(p=>({a:ta.find(a=>a.n==p.n),r:p.r})).filter(p=>p.a);TD=(d.TD||[]).map(x=>({a:ta.find(a=>a.n==x.n),to:x.to,text:x.text})).filter(x=>x.a);TV=d.TV;if(POSTS.some(p=>p.r))res()}catch(e){}}
+$("rx").onclick=()=>{if(confirm("Delete your project, settings, API key and results from this browser?")){try{localStorage.removeItem("ttp");localStorage.removeItem("ttpr")}catch(e){}location.reload()}};
+/* onboarding */
+let ST=0;
+function ob(){const s=$("obs");s.textContent="";const d=el("div","dots");for(let i=0;i<4;i++)d.appendChild(el("i",i<=ST?"on":""));s.appendChild(d);const b=el("div");
+const T=[["Welcome to Test To Prod","Find out what real people think of your product before you ship it."],["Connect your AI provider","Reviews run through OpenRouter. Your key never leaves this browser."],["Describe your project","One line is enough. You can add files and notes later."],["Pick your panel","Choose who reviews your product and in which language."]][ST];
+s.append(Object.assign(el("h1","",T[0])),Object.assign(el("p","sub",T[1]),{style:"margin-bottom:18px"}));
+if(ST==0){[["upload","Upload anything","Code, ZIP files, links, screenshots or research notes."],["users","Get a realistic panel","Personas with real budgets, habits and objections review it."],["rocket","Act on a clear summary","Strengths, risks and concrete next steps in the Founders Hub."]].forEach(x=>{const f=el("div","ft2");f.innerHTML='<div class="ib2">'+ic(x[0])+'</div>';const t=el("div");t.append(el("b","",x[1]),el("span","",x[2]));f.appendChild(t);b.appendChild(f)})}
+if(ST==1){b.innerHTML='<label>OpenRouter API key</label><input id="oa" type="password" placeholder="sk-or-..." autocomplete="off"><div class="hint">Get a free key at openrouter.ai/keys</div><label>Model (optional)</label><input id="om" placeholder="thinkingmachines/inkling:free">';b.querySelector("#oa").value=S.ak;b.querySelector("#om").value=S.md;combo(b.querySelector("#om"))}
+if(ST==2){b.innerHTML='<label>Startup name</label><input id="on" placeholder="Acme"><label>What does it do?</label><textarea id="od" placeholder="Who is it for, what does it do, what does it cost?"></textarea>';b.querySelector("#on").value=S.nm;b.querySelector("#od").value=S.ds}
+if(ST==3){const c=el("div","chips");A().slice(0,14).forEach(a=>{const x=el("button","chip"+(S.sel.includes(a.n)?" on":""),a.n);x.onclick=()=>{S.sel=S.sel.includes(a.n)?S.sel.filter(y=>y!=a.n):S.sel.concat(a.n);x.classList.toggle("on")};c.appendChild(x)});b.appendChild(c);const l=el("label","","Response language");const sl=el("select");sl.id="ol";["English","Roman Urdu","Urdu","Hindi","Hinglish"].forEach(x=>sl.appendChild(el("option","",x)));sl.value=S.lg;b.append(l,sl)}
+s.appendChild(b);
+const f=el("div","ft");const sk=el("button","btn o","Skip");sk.onclick=fin;const bk=el("button","btn o","Back");bk.onclick=()=>{cm();ST--;ob()};const nx=el("button","btn ac",ST==3?"Finish":"Continue");nx.onclick=()=>{cm();if(ST==3)return fin();ST++;ob()};f.append(...(ST?[bk]:[sk]),el("span","sp"),nx);s.appendChild(f)}
+function cm(){const g=i=>$(i)?$(i).value:null;if(g("oa")!=null){S.ak=g("oa").trim();S.md=g("om").trim()}if(g("on")!=null){S.nm=g("on");S.ds=g("od")}if(g("ol"))S.lg=g("ol");["nm","ds","ak","md","lg"].forEach(k=>$(k).value=S[k]);sv();status();panel()}
+function fin(){S.ob=1;sv();$("ob").classList.remove("on");go("dash")}
+$("rp").onclick=()=>{ST=0;ob();$("ob").classList.add("on")};
+combo($("md"));fnd();icons();nav();theme();panel();status();fls();loadR();go("dash");
+if(!S.ob){ST=0;ob();$("ob").classList.add("on")}
+</script></body></html>
